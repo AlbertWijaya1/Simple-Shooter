@@ -50,4 +50,8 @@ private:
 	UPROPERTY(VisibleDefaultsOnly)
 	float Health;
 
+	UFUNCTION(BlueprintPure)
+ 	bool IsDead()const;
+
+	// bool Dead = false;
 };

@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Gun.h"
 #include "ShooterCharacter.h"
+#include "Gun.h"
 
 
 // Sets default values
@@ -52,6 +52,10 @@ float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent cons
 	Health-=DamageToApply;
 	UE_LOG(LogTemp, Warning, TEXT("Health %f"), Health);
 
+	// if(Health == 0){
+	// 	Dead = true;
+	// }
+
 	return DamageToApply;
 }
 
@@ -73,6 +77,11 @@ void AShooterCharacter::MoveRight(float AxisValue)
 void AShooterCharacter::Shoot()
 {
 	Gun->PullTrigger();
+}
+
+bool AShooterCharacter::IsDead() const
+{
+	return Health<= 0;
 }
 
 
