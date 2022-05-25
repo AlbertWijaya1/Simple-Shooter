@@ -18,10 +18,15 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere)
+	float AcceptanceRadius = 200;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-
+private:
+	UPROPERTY(EditAnywhere)
+	class UBehaviorTree* AIBehavior;
 	
 };
