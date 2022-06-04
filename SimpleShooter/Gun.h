@@ -13,7 +13,7 @@ class SIMPLESHOOTER_API AGun : public AActor
 	
 public:	
 	// Sets default values for this actor's properties
-	AGun();
+	AGun();			//this is a constructor (same name as the class, under public section)
 	void PullTrigger();
 
 protected:

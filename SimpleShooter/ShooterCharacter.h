@@ -29,6 +29,7 @@ public:
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
+	void Shoot();
 private:
 	void MoveForward(float AxisValue);
 	void LookUp(float AxisValue);
@@ -42,7 +43,6 @@ private:
 	UPROPERTY()
 	class AGun* Gun;
 
-	void Shoot();
 
 	UPROPERTY(EditAnywhere)
 	float MaxHealth = 100;

@@ -2,7 +2,8 @@
 
 #include "ShooterCharacter.h"
 #include "Gun.h"
-
+#include "Components/CapsuleComponent.h"
+#include "SimpleShooterGameModeBase.h"
 
 // Sets default values
 AShooterCharacter::AShooterCharacter()
@@ -55,7 +56,14 @@ float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent cons
 	// if(Health == 0){
 	// 	Dead = true;
 	// }
-
+	if(IsDead()){					// control what happen when the pawn dead
+		DetachFromControllerPendingDestroy();		//take the control out of this character (Both AI and player, depending on who's in control of that pawn so if enemy dead then its the AI). The pawn will no longer be able to move and shoot, etc.
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);												//switch off the capsule collision
+		ASimpleShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASimpleShooterGameModeBase>();		//getting the hold of our game mode
+		if(GameMode != nullptr){
+			GameMode -> PawnKilled(this);		//pass in this (ShooterCharacter) to the PawnKilled function in SimpleShooterGameModeBase (in which we store in the 'GameMode' variable)
+		}
+	}													
 	return DamageToApply;
 }
 
@@ -81,7 +89,7 @@ void AShooterCharacter::Shoot()
 
 bool AShooterCharacter::IsDead() const
 {
-	return Health<= 0;
+	return Health<= 0;						//this is the same as if we return true when Health<0. So save some space noneed to make if statement when health<=0
 }
 
 

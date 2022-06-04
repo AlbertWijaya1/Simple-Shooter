@@ -13,7 +13,7 @@ class SIMPLESHOOTER_API AMyPawn : public APawn
 
 public:
 	// Sets default values for this pawn's properties
-	AMyPawn();
+	AMyPawn();							//this is a constructor (same name as the class, under public section)
 
 protected:
 	// Called when the game starts or when spawned
