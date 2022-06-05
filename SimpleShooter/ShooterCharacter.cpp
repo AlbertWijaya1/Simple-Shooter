@@ -57,12 +57,12 @@ float AShooterCharacter::TakeDamage(float DamageAmount, struct FDamageEvent cons
 	// 	Dead = true;
 	// }
 	if(IsDead()){					// control what happen when the pawn dead
-		DetachFromControllerPendingDestroy();		//take the control out of this character (Both AI and player, depending on who's in control of that pawn so if enemy dead then its the AI). The pawn will no longer be able to move and shoot, etc.
-		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);												//switch off the capsule collision
 		ASimpleShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<ASimpleShooterGameModeBase>();		//getting the hold of our game mode
 		if(GameMode != nullptr){
 			GameMode -> PawnKilled(this);		//pass in this (ShooterCharacter) to the PawnKilled function in SimpleShooterGameModeBase (in which we store in the 'GameMode' variable)
 		}
+		DetachFromControllerPendingDestroy();		//take the control out of this character (Both AI and player, depending on who's in control of that pawn so if enemy dead then its the AI). The pawn will no longer be able to move and shoot, etc.
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);												//switch off the capsule collision
 	}													
 	return DamageToApply;
 }
