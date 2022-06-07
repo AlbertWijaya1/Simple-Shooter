@@ -2,10 +2,36 @@
 
 
 #include "KillEmAllGameMode.h"
+#include "EngineUtils.h"
+#include "GameFramework/Controller.h"
 
 
 void AKillEmAllGameMode::PawnKilled(APawn* PawnKilled)
 {
     Super::PawnKilled(PawnKilled);
     UE_LOG(LogTemp, Warning, TEXT("Pawn Has been killed!"));
+    
+    APlayerController* PlayerController = Cast<APlayerController>(PawnKilled->GetController());                           //need to get the controller of the pawn that was killed
+    if(PlayerController != nullptr){
+        // PlayerController->GameHasEnded(nullptr, false);                     //a way to tell if the game has ended or not, false means that nope the game has not ended. A->B means that B function or variable is  part of A class and we want to use or call the function or variable. This has been replaced by the bIsWinner on the EndGame function down there on Lecture 217.
+        EndGame(false);         //means that the player has actually lose the game. This player can either be playercontroller or an AI
+    }
+}
+
+void AKillEmAllGameMode::EndGame(bool bIsPlayerWinner)              //bIsPlayerWinner indicates that a player has won the game (can either be the AI or the controller (us))
+{
+    for(AController* Controller : TActorRange<AController>(GetWorld()))       //This is saying that we will do a for loop over every controller in the world (iterate through all the controller) in the variable called 'Controller'. This will return us a range object, sort of like a list that goes over all over the controllers in the world (that's why we put 'GetWorld()')
+    {
+        bool bIsWinner = Controller->IsPlayerController() == bIsPlayerWinner;       //check if the winning pawn (bIsPlayerWinner)(the one who kills all other pawn) is the player (==Controller->IsPlayerController()). Since we make bIsWinner to be A==B, if one of it fails, it will return false. So both A & B must be true.
+        Controller->GameHasEnded(nullptr, bIsWinner);                   //Controller->GetPawn() is to focus the camera to our pawn.
+        
+        //Alternative:
+    //     bool bIsPlayerController = Controller->IsPlayerController();           //returns true if it is the pawn we are controlling (aka the player controller).
+    //     if(bIsPlayerWinner){
+    //         Controller->GameHasEnded(nullptr, bIsPlayerController);             //returns (GameHasEnded(nullptr, true)) if the subjectof intrest is the playercontroller and not the AI. Means that we declare the game is over if bIsPlayerWinner == true and the one controlling is the player (bIsPlayerController == true);
+    //     }
+    //     else{
+    //         Controller->GameHasEnded(nullptr, !bIsPlayerController);
+    //     }
+    }
 }
