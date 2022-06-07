@@ -5,6 +5,7 @@
 
 #include "Kismet/GameplayStatics.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "ShooterCharacter.h"
 
 
 void AShooterAIController::BeginPlay() 
@@ -46,6 +47,15 @@ void AShooterAIController::Tick(float DeltaSeconds)
 
 }
 
+bool AShooterAIController::IsDead() const
+{
+    AShooterCharacter* ControlledCharacter = Cast<AShooterCharacter>(GetPawn());
+    if(ControlledCharacter != nullptr){
+        return ControlledCharacter->IsDead();              //run the IsDead() function on AShooterCharacter class where we cast and store it inside the 'ControlledCharacter' variable. If you check ShooterCharacter class, ull see that there's a IsDead function and that is the function we are running.
+    }
+
+    return true;    //saying that if we don't have a pawn, if we are not controlling a pawn essentially this AIController is as good as dead which is possible and certainly could happen coz the pawn dettaches from the AI controller when it dies.
+}
 
 
 
@@ -110,3 +120,4 @@ void AShooterAIController::Tick(float DeltaSeconds)
 //         GetBlackboardComponent()->ClearValue(TEXT("PlayerLocation"));       //clear the keys, itc its the player location... leaving just the LastKnownPlayerLocation when the playerpawn is onsight and delete the one that is offsight.
 //     }
 // }
+

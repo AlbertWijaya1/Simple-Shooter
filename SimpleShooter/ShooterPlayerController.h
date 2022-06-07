@@ -24,4 +24,7 @@ class SIMPLESHOOTER_API AShooterPlayerController : public APlayerController
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UUserWidget>LoseScreenClass;			//as an alternative to TSubClassOf, we can use 'UCLASS' but this doesn't restrict what kind of class we can use and here we want to restrict it to only being UUserWidget which is the parent class of the widget we want to spawn (WBP_LoseScreen)
+	
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UUserWidget>WinScreenClass;
 };
