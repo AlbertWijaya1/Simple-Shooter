@@ -23,7 +23,7 @@ void AKillEmAllGameMode::PawnKilled(APawn* PawnKilled)          // a function wh
         }
     }
     
-        EndGame(true);      //player wins the game (Setting bIsPlayerWinner to true). If 2 of the if statement returns false, then this will execute, meaning that the pawn being killed is NOT the player controller and that there is no AIController remaining (aka that all AIController->IsDead()). If any of the if statement above returns true, then it will execute that code instead and won't even reached this part of the code. That is why this part is being placed at the very bottom so that the code will go through all the if statement from the top to ensure that the pawn being killed is not the playercontroller and that all AIController has all dies, if this satisfy, then will the EndGame(true) be executed which means that we have won the game (setting bIsPlayerWinner = true).
+        EndGame(true);      //player wins the game (Setting bIsPlayerWinner to true). If 2 of the if statement above returns false, then this will execute, meaning that the pawn being killed is NOT the player controller and that there is no AIController remaining (aka that all AIController->IsDead()). If any of the if statement above returns true, then it will execute that code instead and won't even reached this part of the code. That is why this part is being placed at the very bottom so that the code will go through all the if statement from the top to ensure that the pawn being killed is not the playercontroller and that all AIController has all dies, if this satisfy, then will the EndGame(true) be executed which means that we have won the game (setting bIsPlayerWinner = true).
     
 
 }

@@ -34,6 +34,12 @@ private:
 	UPROPERTY(EditAnywhere)
 	UParticleSystem* MuzzleFlash;
 
+	UPROPERTY(EditAnywhere)
+	USoundBase* MuzzleSound;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* ImpactSound;
+
 	float MaxRange = 1000;							//the max range will determine how far can the bullet travels! a large number means that we can shoot really2 far and that the bullet will be able to travel quite a distance and hit the target despite being really far from the target we want to hit.
 	
 	UPROPERTY(EditAnywhere)
