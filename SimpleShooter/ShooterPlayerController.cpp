@@ -5,6 +5,14 @@
 #include "TimerManager.h"
 #include "Blueprint/UserWidget.h"
 
+
+void AShooterPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+    CrossScreen = CreateWidget(this, CrossScreenClass);
+    CrossScreen->AddToViewport();
+    
+}
 void AShooterPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIsWinner)                         //a function to call when the game has ended, listing the list of things to do when the game ends. Game Ends can have 2 possibilities, win or lose. bIsWinner = true is win, while bIsWInner = false is lose.
 {
     Super::GameHasEnded(EndGameFocus, bIsWinner);
@@ -27,6 +35,10 @@ void AShooterPlayerController::GameHasEnded(class AActor* EndGameFocus, bool bIs
         if(LoseScreen != nullptr){                                           //to prevent the condition where we didn't set the LoseScreenClass to the TSubClassOf
             
             LoseScreen->AddToViewport(); 
+        }
+
+        if(CrossScreen!=nullptr){
+            CrossScreen->RemoveFromViewport();
         }
     }
     

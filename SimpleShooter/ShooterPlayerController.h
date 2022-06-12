@@ -16,6 +16,10 @@ class SIMPLESHOOTER_API AShooterPlayerController : public APlayerController
 	public:
 	virtual void GameHasEnded(class AActor* EndGameFocus = nullptr, bool bIsWinner = false) override;		//an override in the function means that it is being overwritten somwhere in the code too.
 	
+	protected:
+	// Called when the game starts
+	virtual void BeginPlay() override;
+
 	private:
 	UPROPERTY(EditAnywhere)
 	float RestartDelay = 5.f;
@@ -27,4 +31,10 @@ class SIMPLESHOOTER_API AShooterPlayerController : public APlayerController
 	
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UUserWidget>WinScreenClass;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UUserWidget>CrossScreenClass;
+
+	UPROPERTY()
+	UUserWidget* CrossScreen;
 };

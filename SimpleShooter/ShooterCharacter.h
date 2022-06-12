@@ -30,7 +30,7 @@ public:
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 	void Shoot();
-	
+
 	UFUNCTION(BlueprintPure)
  	bool IsDead()const;
 private:
@@ -52,6 +52,9 @@ private:
 
 	UPROPERTY(VisibleDefaultsOnly)
 	float Health;
+
+	UFUNCTION(BlueprintPure)
+	float GetHealthPercent() const;				//const bcs it shouldn't change in any way when being called.
 
 
 	// bool Dead = false;
