@@ -33,6 +33,8 @@ public:
 
 	UFUNCTION(BlueprintPure)
  	bool IsDead()const;
+	
+	bool bIsAmmoReceived;
 private:
 	void MoveForward(float AxisValue);
 	void LookUp(float AxisValue);
@@ -56,6 +58,22 @@ private:
 	UFUNCTION(BlueprintPure)
 	float GetHealthPercent() const;				//const bcs it shouldn't change in any way when being called.
 
+	UPROPERTY(EditAnywhere)
+	int MaxAmmo=100.f;
+
+	UPROPERTY(VisibleDefaultsOnly)
+	int Ammo;
+
+	UFUNCTION(BlueprintPure)
+	int GetAmmoQuantity() const;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* OutOfAmmoSound;
+
+	void AmmoReceived();
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* ReloadAmmoSound;
 
 	// bool Dead = false;
 };

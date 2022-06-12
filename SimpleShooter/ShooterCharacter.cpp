@@ -3,6 +3,7 @@
 #include "ShooterCharacter.h"
 #include "Gun.h"
 #include "Components/CapsuleComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "SimpleShooterGameModeBase.h"
 
 // Sets default values
@@ -24,13 +25,18 @@ void AShooterCharacter::BeginPlay()
 	Gun->SetOwner(this);	// setting the gun's owner to be the ShooterCharacter. Such that when we call 'getowner' in the gun.cpp, it means that we are calling the owner of the gun and that is this ShooterCharacter. 
 
 	Health = MaxHealth;
+	Ammo = MaxAmmo;
 }
 
 // Called every frame
 void AShooterCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if(bIsAmmoReceived == true){
+		AmmoReceived();
+		bIsAmmoReceived=false;
+		UGameplayStatics::SpawnSoundAttached(ReloadAmmoSound, Gun->Mesh, TEXT("MuzzleFlashSocket"));
+	}
 }
 
 // Called to bind functionality to input
@@ -87,9 +93,25 @@ float AShooterCharacter::GetHealthPercent() const
 	return Health/MaxHealth;
 }
 
+
 void AShooterCharacter::Shoot()
 {
-	Gun->PullTrigger();
+	if(Ammo>0){
+		Gun->PullTrigger();
+		Ammo--;
+	}
+	else{
+		UGameplayStatics::SpawnSoundAttached(OutOfAmmoSound, Gun->Mesh, TEXT("MuzzleFlashSocket"));
+	}
+}
+int AShooterCharacter::GetAmmoQuantity() const
+{
+	return Ammo;
+}
+
+void AShooterCharacter::AmmoReceived()
+{
+	Ammo=MaxAmmo;
 }
 
 bool AShooterCharacter::IsDead() const
