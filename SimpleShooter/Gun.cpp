@@ -52,6 +52,13 @@ void AGun::Tick(float DeltaTime)
 
 }
 
+void AGun::HandleDestruction()
+{
+    SetActorHiddenInGame(true);
+	SetActorEnableCollision(false);
+    SetActorTickEnabled(false);
+}
+
 bool AGun::GunTrace(FHitResult &HitResult, FVector &ShotDirection)
 {
 	AController* OwnerController = GetOwnerController();			// this returns OwnerPawn->GetController(); (see the function below!)

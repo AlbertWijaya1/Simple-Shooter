@@ -18,5 +18,11 @@ class SIMPLESHOOTER_API AKillEmAllGameMode : public ASimpleShooterGameModeBase
 
 	private:
 	void EndGame(bool bIsPlayerWinner);			//a way of telling whether the AI that has won or the player that has won.
+
+	UFUNCTION(BlueprintPure)
+	int32 GetAIControllerCount();
+
+
+
 };
 

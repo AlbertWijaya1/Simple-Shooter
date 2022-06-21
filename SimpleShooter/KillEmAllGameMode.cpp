@@ -5,7 +5,7 @@
 #include "EngineUtils.h"
 #include "GameFramework/Controller.h"
 #include "ShooterAIController.h"
-
+#include "Kismet/GameplayStatics.h"
 
 void AKillEmAllGameMode::PawnKilled(APawn* PawnKilled)          // a function which defines what happen when a pawn dies. The pawn here can be either the player (denoted by 'PlayerController' below) or an AI (denoted by 'AIController' below).
 {
@@ -45,3 +45,11 @@ void AKillEmAllGameMode::EndGame(bool bIsPlayerWinner)              //bIsPlayerW
     //     }
     }
 }
+
+int32 AKillEmAllGameMode::GetAIControllerCount()
+{
+    TArray<AActor*> ShooterControllerss;
+    UGameplayStatics::GetAllActorsOfClass(this, AShooterAIController::StaticClass(), ShooterControllerss);         //get how many actor are there in a class (in this case we choose ATower::StaticClass) and put them in an array, later on if we want to know how much  is the number of actor, can just use TArrayVar.Num() just like what we did in Bull and Cow game
+    return ShooterControllerss.Num();
+}
+
