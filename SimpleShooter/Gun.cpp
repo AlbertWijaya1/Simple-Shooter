@@ -54,9 +54,9 @@ void AGun::Tick(float DeltaTime)
 
 void AGun::HandleDestruction()
 {
-    SetActorHiddenInGame(true);
-	SetActorEnableCollision(false);
-    SetActorTickEnabled(false);
+    SetActorHiddenInGame(true);			//hide the actor
+	SetActorEnableCollision(false);		//turn off the collision system of that actor
+    SetActorTickEnabled(false);			//turn off the tick system of that actor
 }
 
 bool AGun::GunTrace(FHitResult &HitResult, FVector &ShotDirection)

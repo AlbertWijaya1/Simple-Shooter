@@ -19,6 +19,10 @@ void AAmmo::BeginPlay()
 {
 	Super::BeginPlay();
 	AmmoMesh->OnComponentHit.AddDynamic(this, &AAmmo::OnHit);		// call the 'OnHit' function on &AAmmo when the actor is being hit. Wo this line of code, the  OnHit function will never be called thus, the function when the actor is hit will never be executed
+	// UE_LOG(LogTemp, Warning, TEXT("SpawnAmmo!"));
+	// for(int i=0;i<6;i++){
+	// 	UE_LOG(LogTemp, Warning, TEXT("test %i!"), i);
+	// }
 }
 void AAmmo::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)		//a function to tell what to do when something (an 'Other Actor') hit something ()
 {

@@ -160,9 +160,11 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class AGun>GunClass;			//here we are storing the AGun UClass in variable called GunClass. This allows all the associated class related to AGun to be called, including the child and instances, in this case since we create the blueprint version of AGun, we can also assign the blueprint to the GunClass variable. Thus, using this approach we can then call the blueprint side of the class in our other cpp class (by calling the ProjectileClass variable)
 	int i=0;
+	int j=0;
 	// UPROPERTY(EditDefaultsOnly)
 	int ActiveGunIndex;
-	TArray<AGun*> Guns;
+	UPROPERTY(VisibleDefaultsOnly)
+	TArray<AGun*> Guns;					//this is as a variable to store the gun we manually specified in gunclasses. whatever action we want to do next with the gun (spawning, attaching, hiding, etc) will be done with these Guns array that store the variable of the member of the gunclasses
 	UPROPERTY(EditDefaultsOnly)
 	TArray<TSubclassOf<AGun>> GunClasses;			//we put TSubClassOf is like to bring in th ewhole AGun class to represent AGUn in the blueprint, such that we can call the blueprint class in each array. Confused? look at TSubClassOf at the BasePawn.h @ ToonTanks
 
