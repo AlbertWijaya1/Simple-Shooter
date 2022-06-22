@@ -14,19 +14,34 @@ AShooterCharacter::AShooterCharacter()
 
 }
 
+/*The way how we do the array is that we are storing all Guns we set in the GunClasses inside a variable array (means an array of variable) called 'Guns', so Guns[0] will store GunClasses[0], Guns[1] will store GunClassess[1] and so on.
+We make a for loop (for j) so that we no need to do this manually. If 2 weapon OK! but what if there's 100 weapon? setting for loop is much better! it'll store all the respective GunClasses[x] to its Guns[x].
+So with now all the variable Guns[x] being set,anything we want to do with the gun can be done to the Guns[x], e.g. Hide => Guns[0]->SetActorHiddenInGame(true), and so on.*/
+
+
+
+/*Guns.Emplace(GetWorld()->SpawnActor<AGun>(GunClasses[j])); will add member to the 'Guns' array. The member will going to be actors spawn with its respective GunClasses[j]. Since the for loop will iterate in order, the Guns[] will also be filled in order!
+e.g. Guns[0] = GetWorld()->SpawnActor<AGun>(GunClasses[0]), Guns[1] = GetWorld()->SpawnActor<AGun>(GunClasses[1]), etc. NB: we set the member of the GunClasses manually in the BP_ShooterCharacter.
+We need to do this to specify which gun we want to refer to (itc which gun to be spawned), and the reason why we can choose this in the BP_ShooterCharacter is bcs we set the class of the GunClasses array to be a TSubClassOf. This Allows us to have the dragdown list option to selfpick the BP that inherits the class we desire that suits the needs  */
+
+/*kalau array go out of bounds, pelan2 baca aja! masukin 0 gimana, masukin 1 gimana. 
+gabisa yang atas baru [0] tapi bawahnya uda [1]! ya out of bounds! (ingat for loop mulai dari 0, so if baru mulai dari [0], bawah gada yg boleh lebih dari itu! ([>0]))
+This is what happen w me b4,  use for loops, first kan [0] (j=0) but I uda set aja [1] di bawah, ya out of bound la!
+intinya masukin aja manual pelan2 n dibaca kira2 possible ga?*/
+
 // Called when the game starts or when spawned
 void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	Gun = GetWorld()->SpawnActor<AGun>(GunClass);		//spawn the gun, if the location and rotation is not specified, it will just spawn at global coordinate 0,0,0
-	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));		// Attach the "Gun" to the GetMesh(), aka the mesh of this cpp file, itc the ShooterCharacter. Such that when the actor is spawned, it doesn't spawn randomly in the world (cos we are not defining the location and rotation at SpawnActor() function, it will spawn at our desire locationa and rotation if we set it at teh SpawnActor() function, but since we didn't we then need to use this 'AttachToComponent()' function to define where we want to spawn the actor when it is present). Plus coz we are using 'KeepRelativeTransform', when we move around it will follow the point where we are attaching the actor to. KeepRelativeTransform means we are keeping the location of the actor being spawned relative to the GetMesh to be constant. Otherwise, the other option is "KeepWorldTransform" which is keeping the location of the actor being spawned constant to the world, i.e the actor stays at the same spawn point in the world
+	// Gun = GetWorld()->SpawnActor<AGun>(GunClass);		//spawn the gun, if the location and rotation is not specified, it will just spawn at global coordinate 0,0,0
+	// Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));		// Attach the "Gun" to the GetMesh(), aka the mesh of this cpp file, itc the ShooterCharacter. Such that when the actor is spawned, it doesn't spawn randomly in the world (cos we are not defining the location and rotation at SpawnActor() function, it will spawn at our desire locationa and rotation if we set it at teh SpawnActor() function, but since we didn't we then need to use this 'AttachToComponent()' function to define where we want to spawn the actor when it is present). Plus coz we are using 'KeepRelativeTransform', when we move around it will follow the point where we are attaching the actor to. KeepRelativeTransform means we are keeping the location of the actor being spawned relative to the GetMesh to be constant. Otherwise, the other option is "KeepWorldTransform" which is keeping the location of the actor being spawned constant to the world, i.e the actor stays at the same spawn point in the world
 	// Gun->HandleDestruction();		//run the 'HandleDesctruction() function@ Gun.cpp
 	// for(int i=0; i<Guns.Num(); i++){
 	// Guns[i] = Guns.Emplace(GunClass[i]);
 		
 	// }
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);		//hide the weapon_r skeletalmesh (the weapon bawaan by the wraith, open 'wraith' and search for weapon_r @ the skeleton tree and ull now what i mean). We need to hide this bcs we're attaching a new gun mesh (which is defined by the 'Gun' variable above) if you see Exxx its an Enum and need to be followed by double colon (Exxx::)
-	Gun->SetOwner(this);	// setting the gun's owner to be the ShooterCharacter. Such that when we call 'getowner' in the gun.cpp, it means that we are calling the owner of the gun and that is this ShooterCharacter. 
+	// Gun->SetOwner(this);	// setting the gun's owner to be the ShooterCharacter. Such that when we call 'getowner' in the gun.cpp, it means that we are calling the owner of the gun and that is this ShooterCharacter. 
 
 	Health = MaxHealth;
 	Ammo = MaxAmmo;
@@ -39,9 +54,9 @@ void AShooterCharacter::BeginPlay()
 		if(Guns[j]!=nullptr){
 			Guns[j]->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));		// Attach each "Guns[j]" to the GetMesh(), aka the mesh of this cpp file, itc the ShooterCharacter. KeepRelativeTransform means we are keeping the location of the actor being spawned relative to the GetMesh to be constant. Otherwise, the other option is "KeepWorldTransform" which is keeping the location of the actor being spawned constand to the world, i.e the actor stays at the same spawn point in the world
 			Guns[j]->SetOwner(this);	// setting the gun's owner to be the ShooterCharacter. Such that when we call 'getowner' in the gun.cpp, it means that we are calling the owner of the gun and that is this ShooterCharacter. 
-			Guns[j]->SetActorHiddenInGame(true);
-			Guns[j]->SetActorEnableCollision(false);
-			Guns[j]->SetActorTickEnabled(false);
+			Guns[0]->SetActorHiddenInGame(true);			//hide the first array member of Guns[j] where we emplace with GunClasses that where we set manually the gun in the BP_ShooterCharacter due to the TSubClassOf
+			Guns[0]->SetActorEnableCollision(false);		//turn off the collision the first array member of Guns[j] where we emplace with GunClasses that where we set manually the gun in the BP_ShooterCharacter due to the TSubClassOf
+			Guns[0]->SetActorTickEnabled(false);			//Turn tick system off for the first array member of Guns[j] where we emplace with GunClasses that where we set manually the gun in the BP_ShooterCharacter due to the TSubClassOf
 
 			// if(j != i){			//if j is not the i(activeindex by the WeaponSwitch() below). i is being changed by the mouse wheel (coz we set the BindAction to the mouse wheel and it changed as we move the mouse wheel), changing the mouse wheel will change the i value following the number of arrays index (see the "ChangeWeapon() function below for more detail").
 				// Guns[i]->SetActorHiddenInGame(true);	//(Hide the Actor)
@@ -60,7 +75,7 @@ void AShooterCharacter::Tick(float DeltaTime)
 	if(bIsAmmoReceived == true){
 		AmmoReceived();
 		bIsAmmoReceived=false;
-		UGameplayStatics::SpawnSoundAttached(ReloadAmmoSound, Gun->Mesh, TEXT("MuzzleFlashSocket"));
+		UGameplayStatics::SpawnSoundAttached(ReloadAmmoSound, Guns[i]->Mesh, TEXT("MuzzleFlashSocket"));
 
 	}
 	UE_LOG(LogTemp, Warning, TEXT("j = %i!"), j);
@@ -125,7 +140,7 @@ float AShooterCharacter::GetHealthPercent() const
 void AShooterCharacter::Shoot()
 {
 	if(Ammo>0){
-		Gun->PullTrigger();
+		Guns[i]->PullTrigger();
 		// Ammo--;
 	}
 	else{
@@ -168,8 +183,8 @@ void AShooterCharacter::ChangeWeapon()
 	// UE_LOG(LogTemp, Warning, TEXT("array num=%i!"), arraynum);
 	// Guns[i]->SetActorHiddenInGame(true);	//(Hide the Actor)
 	// if(i==ActiveGunIndex){
-		Gun->SetActorHiddenInGame(true);
-		Guns[!i]->SetActorHiddenInGame(true);
+		// Gun->SetActorHiddenInGame(true);				// hide the 'Gun' but since we have change the 'Gun' to Guns[j], we no longer need this and it will crash if we did this since we haven't define 'Gun' anywhere and that we have commented that section out of the code.
+		Guns[!i]->SetActorHiddenInGame(true);			//set the Guns[not{thus the !} active index] to be hidden
 		Guns[i]->SetActorHiddenInGame(false);
 	// }
 

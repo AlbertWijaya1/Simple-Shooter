@@ -22,7 +22,7 @@ EBTNodeResult::Type UBTTask_Shoot::ExecuteTask(UBehaviorTreeComponent& OwnerComp
     if(Character ==nullptr){
         return EBTNodeResult::Failed;
     }
-    Character->Shoot();          //we first need to define what is 'Character'! otherwise UE will just treat it as an empty variable... it won't give any value.
+    Character->Shoot();          //we first need to define what is 'Character'! otherwise UE will just treat it as an empty variable... it won't give any value. and w did it above by casting.
 
     return EBTNodeResult::Succeeded;
 }
